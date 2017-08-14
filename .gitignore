@@ -1,0 +1,5 @@
+/test.*
+node_modules
+.vscode
+build
+__pycache__
