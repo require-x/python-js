@@ -1,9 +1,5 @@
 #include <node.h>
 #include <Python.h>
 
-using v8::Isolate;
-using v8::Local;
-using v8::Value;
-
-Local<Value> ResolveToV8(PyObject*, Isolate*);
-PyObject *ResolveToPy(Local<Value> val);
+v8::Local<v8::Value> ResolveToV8(PyObject*, v8::Isolate*);
+PyObject *ResolveToPy(v8::Local<v8::Value> val);

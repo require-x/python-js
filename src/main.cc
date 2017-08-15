@@ -6,29 +6,16 @@
 #include <vector>
 #include <iostream>
 
-using v8::FunctionCallbackInfo;
-using v8::Isolate;
-using v8::Local;
-using v8::Object;
-using v8::String;
-using v8::Value;
-
-bool setup = false;
 std::vector<PyObject *> modules;
 
-void Load(const FunctionCallbackInfo<Value>& args) {
-  Isolate* isolate = args.GetIsolate();
-  Local<v8::Context> context = isolate->GetCurrentContext();
+void Load(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  v8::Isolate* isolate = args.GetIsolate();
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
   PyObject *name, *module;
 
-  if (!setup) {
-    Py_Initialize();
-    setup = true;
-  }
-
-  Local<String> v8str = args[0]->ToString(context).ToLocalChecked();
-  String::Utf8Value utf8(v8str);
+  v8::Local<v8::String> v8str = args[0]->ToString(context).ToLocalChecked();
+  v8::String::Utf8Value utf8(v8str);
 
   name = PyUnicode_DecodeFSDefault(*utf8);
   /* Error checking of pName left out */
@@ -42,35 +29,35 @@ void Load(const FunctionCallbackInfo<Value>& args) {
     modules.push_back(module);
   } else {
     PyErr_Print();
-    isolate->ThrowException(v8::Exception::Error(String::NewFromUtf8(isolate, "failed to load module")));
+    isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "failed to load module")));
   }
 
   args.GetReturnValue().Set(v8::Number::New(isolate, id));
 }
 
-void Get(const FunctionCallbackInfo<Value>& args) {
-  Isolate* isolate = args.GetIsolate();
-  Local<v8::Context> context = isolate->GetCurrentContext();
+void Get(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  v8::Isolate* isolate = args.GetIsolate();
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
-  Local<v8::Number> moduleId = Local<v8::Number>::Cast(args[0]);
+  v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
   PyObject *module = modules[moduleId->Value()];
 
-  Local<String> v8str = args[1]->ToString(context).ToLocalChecked();
-  String::Utf8Value utf8(v8str);
+  v8::Local<v8::String> v8str = args[1]->ToString(context).ToLocalChecked();
+  v8::String::Utf8Value utf8(v8str);
   PyObject *pObj = PyObject_GetAttrString(module, *utf8);
 
   args.GetReturnValue().Set(ResolveToV8(pObj, isolate));
 }
 
-void Set(const FunctionCallbackInfo<Value>& args) {
-  Isolate* isolate = args.GetIsolate();
-  Local<v8::Context> context = isolate->GetCurrentContext();
+void Set(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  v8::Isolate* isolate = args.GetIsolate();
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
-  Local<v8::Number> moduleId = Local<v8::Number>::Cast(args[0]);
+  v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
   PyObject *module = modules[moduleId->Value()];
 
-  Local<String> v8str = args[1]->ToString(context).ToLocalChecked();
-  String::Utf8Value utf8(v8str);
+  v8::Local<v8::String> v8str = args[1]->ToString(context).ToLocalChecked();
+  v8::String::Utf8Value utf8(v8str);
   if (PyObject_SetAttrString(module, *utf8, ResolveToPy(args[2])) == -1) {
     PyErr_Print();
   }
@@ -78,15 +65,15 @@ void Set(const FunctionCallbackInfo<Value>& args) {
   args.GetReturnValue().Set(ResolveToV8(ResolveToPy(args[2]), isolate));
 }
 
-void Has(const FunctionCallbackInfo<Value>& args) {
-  Isolate* isolate = args.GetIsolate();
-  Local<v8::Context> context = isolate->GetCurrentContext();
+void Has(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  v8::Isolate* isolate = args.GetIsolate();
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
-  Local<v8::Number> moduleId = Local<v8::Number>::Cast(args[0]);
+  v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
   PyObject *module = modules[moduleId->Value()];
 
-  Local<String> v8str = args[1]->ToString(context).ToLocalChecked();
-  String::Utf8Value utf8(v8str);
+  v8::Local<v8::String> v8str = args[1]->ToString(context).ToLocalChecked();
+  v8::String::Utf8Value utf8(v8str);
   if (PyObject_HasAttrString(module, *utf8)) {
     args.GetReturnValue().Set(v8::True(isolate));
   } else {
@@ -94,10 +81,10 @@ void Has(const FunctionCallbackInfo<Value>& args) {
   }
 }
 
-void Keys(const FunctionCallbackInfo<Value>& args) {
-  Isolate* isolate = args.GetIsolate();
+void Keys(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  v8::Isolate* isolate = args.GetIsolate();
 
-  Local<v8::Number> moduleId = Local<v8::Number>::Cast(args[0]);
+  v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
   PyObject *module = modules[moduleId->Value()];
 
   PyObject *pDict = PyObject_GenericGetDict(module, NULL);
@@ -109,29 +96,29 @@ void Keys(const FunctionCallbackInfo<Value>& args) {
   }
 }
 
-void Del(const FunctionCallbackInfo<Value>& args) {
-  Isolate* isolate = args.GetIsolate();
-  Local<v8::Context> context = isolate->GetCurrentContext();
+void Del(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  v8::Isolate* isolate = args.GetIsolate();
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
-  Local<v8::Number> moduleId = Local<v8::Number>::Cast(args[0]);
+  v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
   PyObject *module = modules[moduleId->Value()];
 
-  Local<String> v8str = args[1]->ToString(context).ToLocalChecked();
-  String::Utf8Value utf8(v8str);
+  v8::Local<v8::String> v8str = args[1]->ToString(context).ToLocalChecked();
+  v8::String::Utf8Value utf8(v8str);
   if (PyObject_DelAttrString(module, *utf8) == -1) {
     PyErr_Print();
   }
 }
 
-void Call(const FunctionCallbackInfo<Value>& args) {
-  Isolate* isolate = args.GetIsolate();
-  Local<v8::Context> context = isolate->GetCurrentContext();
+void Call(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  v8::Isolate* isolate = args.GetIsolate();
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
-  Local<v8::Number> moduleId = Local<v8::Number>::Cast(args[0]);
+  v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
   PyObject *module = modules[moduleId->Value()];
 
-  Local<String> v8str = args[1]->ToString(context).ToLocalChecked();
-  String::Utf8Value utf8(v8str);
+  v8::Local<v8::String> v8str = args[1]->ToString(context).ToLocalChecked();
+  v8::String::Utf8Value utf8(v8str);
   PyObject *pObj = PyObject_GetAttrString(module, *utf8);
 
   if (pObj && PyCallable_Check(pObj)) {
@@ -151,7 +138,9 @@ void Call(const FunctionCallbackInfo<Value>& args) {
   }
 }
 
-void init(Local<Object> exports) {
+void init(v8::Local<v8::Object> exports) {
+  Py_Initialize();
+
   NODE_SET_METHOD(exports, "load", Load);
   NODE_SET_METHOD(exports, "get", Get);
   NODE_SET_METHOD(exports, "set", Set);
