@@ -2,9 +2,9 @@
 
 process.env.PYTHONPATH = __dirname;
 
-const requirePy = require('..');
+const py = require('..');
 
-const pyModule = requirePy('test');
+const pyModule = py.require('test');
 const variables = [
   {
     name: 'str',
@@ -21,8 +21,8 @@ const variables = [
   {
     name: 'tuple',
     displayName: 'Tuple',
-    value: [1, 2, [3, 4]],
-    noFunc: false,
+    value: new py.Tuple(1, 2, new py.Tuple(3, 4)),
+    edit: new py.Tuple(1, 2, new py.Tuple(3, '4'), 5),
   },
   {
     name: 'obj',
@@ -124,7 +124,6 @@ describe('func', () => {
   });
 
   for (const variable of variables) {
-    if (variable.noFunc) continue;
     test(variable.displayName, () => { // eslint-disable-line
       expect(pyModule.func(variable.value)).toEqual(variable.value);
     });

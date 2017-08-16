@@ -1,2 +1,4 @@
-declare function requirePy(module: string): object;
-export = requirePy;
+declare module '@require-x/python' {
+  export function require(module: string): { [x: string]: any };
+  export class Tuple extends Array { }
+}

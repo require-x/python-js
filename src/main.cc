@@ -4,7 +4,6 @@
 #include "resolver.h"
 
 #include <vector>
-#include <iostream>
 
 std::vector<PyObject *> modules;
 
@@ -46,7 +45,7 @@ void Get(const v8::FunctionCallbackInfo<v8::Value>& args) {
   v8::String::Utf8Value utf8(v8str);
   PyObject *pObj = PyObject_GetAttrString(module, *utf8);
 
-  args.GetReturnValue().Set(ResolveToV8(pObj, isolate));
+  args.GetReturnValue().Set(ResolveToV8(pObj, isolate, args[2]));
 }
 
 void Set(const v8::FunctionCallbackInfo<v8::Value>& args) {
@@ -62,7 +61,7 @@ void Set(const v8::FunctionCallbackInfo<v8::Value>& args) {
     PyErr_Print();
   }
 
-  args.GetReturnValue().Set(ResolveToV8(ResolveToPy(args[2]), isolate));
+  args.GetReturnValue().Set(ResolveToV8(ResolveToPy(args[2]), isolate, args[3]));
 }
 
 void Has(const v8::FunctionCallbackInfo<v8::Value>& args) {
@@ -92,7 +91,7 @@ void Keys(const v8::FunctionCallbackInfo<v8::Value>& args) {
   if (pDict == NULL) {
     PyErr_Print();
   } else {
-    args.GetReturnValue().Set(ResolveToV8(PyDict_Keys(pDict), isolate));
+    args.GetReturnValue().Set(ResolveToV8(PyDict_Keys(pDict), isolate, args[1]));
   }
 }
 
@@ -122,10 +121,10 @@ void Call(const v8::FunctionCallbackInfo<v8::Value>& args) {
   PyObject *pObj = PyObject_GetAttrString(module, *utf8);
 
   if (pObj && PyCallable_Check(pObj)) {
-    PyObject *pArgs = PyTuple_New(args.Length() - 2);
+    PyObject *pArgs = PyTuple_New(args.Length() - 3);
 
-    for (int i = 0; i < args.Length() - 2; i++) {
-      PyTuple_SetItem(pArgs, i, ResolveToPy(args[i + 2]));
+    for (int i = 0; i < args.Length() - 3; i++) {
+      PyTuple_SetItem(pArgs, i, ResolveToPy(args[i + 3]));
     }
 
     PyObject *pValue = PyObject_CallObject(pObj, pArgs);
@@ -134,7 +133,7 @@ void Call(const v8::FunctionCallbackInfo<v8::Value>& args) {
       PyErr_Print();
     }
 
-    args.GetReturnValue().Set(ResolveToV8(pValue, isolate));
+    args.GetReturnValue().Set(ResolveToV8(pValue, isolate, args[2]));
   }
 }
 

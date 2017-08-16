@@ -2,6 +2,8 @@ process.env.PYTHONPATH = process.env.PYTHONPATH || process.cwd();
 
 const { load, get, set, has, keys, del, call } = require('bindings')('python.node');
 
+class Tuple extends Array { }
+
 function objProxy(obj, id, name, parent) {
   return new Proxy(obj, {
     get(target, key) {
@@ -18,56 +20,60 @@ function objProxy(obj, id, name, parent) {
       target[key] = val;
 
       if (parent) parent[name] = this;
-      else set(id, name, target);
+      else set(id, name, target, Tuple);
 
       return val;
     },
   });
 }
 
-module.exports = (module) => {
-  const id = load(module);
+module.exports = {
+  Tuple,
 
-  return new Proxy({}, {
-    get(_, key) {
-      const val = get(id, key);
+  require(module) {
+    const id = load(module);
 
-      if (typeof val === 'function') return (...args) => call(id, key, ...args);
-      else if (val instanceof Object || val instanceof Array) {
-        return objProxy(val, id, key);
-      }
+    return new Proxy({}, {
+      get(_, key) {
+        const val = get(id, key, Tuple);
 
-      return val;
-    },
+        if (typeof val === 'function') return (...args) => call(id, key, Tuple, ...args);
+        else if (val instanceof Object || val instanceof Array) {
+          return objProxy(val, id, key);
+        }
 
-    set(_, key, val) {
-      return set(id, key, val);
-    },
+        return val;
+      },
 
-    has(_, key) {
-      return has(id, key);
-    },
+      set(_, key, val) {
+        return set(id, key, val, Tuple);
+      },
 
-    ownKeys() {
-      return keys(id);
-    },
+      has(_, key) {
+        return has(id, key, Tuple);
+      },
 
-    getOwnPropertyDescriptor(_, key) {
-      if (key.startsWith('__')) {
+      ownKeys() {
+        return keys(id, Tuple);
+      },
+
+      getOwnPropertyDescriptor(_, key) {
+        if (key.startsWith('__')) {
+          return {
+            enumerable: false,
+            configurable: true,
+          };
+        }
+
         return {
-          enumerable: false,
+          enumerable: true,
           configurable: true,
         };
-      }
+      },
 
-      return {
-        enumerable: true,
-        configurable: true,
-      };
-    },
-
-    deleteProperty(_, key) {
-      return del(id, key);
-    },
-  });
+      deleteProperty(_, key) {
+        return del(id, key);
+      },
+    });
+  },
 };
