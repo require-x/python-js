@@ -2,13 +2,18 @@ environment:
   global:
    PYTHON: "C:\\Python27-x64"
 
+  matrix:
+    - nodejs_version: "8"
+    - nodejs_version: "7"
+    - nodejs_version: "6"
+
 # Install scripts. (runs after repo cloning)
 install:
   # Prepend Python 3 to the PATH of this build 
   - "SET PATH=C:\\Python35-x64;C:\\Python35-x64\\Scripts;%PATH%"
 
   # Get the latest stable version of Node.js or io.js
-  - ps: Install-Product node 8 x64
+  - ps: Install-Product node $env:nodejs_version x64
   # install modules
   - npm install 
 

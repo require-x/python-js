@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Require Python in JS",
   "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "test": "eslint index.js && jest",
     "install": "node-gyp rebuild"
