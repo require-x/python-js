@@ -3,5 +3,8 @@ node_js:
   - "8"
   - "7"
   - "6"
+os:
+  - linux
+  - osx
 env:
   - LD_RUN_PATH=/opt/python/3.5.3/lib
