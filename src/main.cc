@@ -39,7 +39,7 @@ void Get(const v8::FunctionCallbackInfo<v8::Value>& args) {
   v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
   v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
-  PyObject *module = modules[moduleId->Value()];
+  PyObject *module = modules[(int)moduleId->Value()];
 
   v8::Local<v8::String> v8str = args[1]->ToString(context).ToLocalChecked();
   v8::String::Utf8Value utf8(v8str);
@@ -53,7 +53,7 @@ void Set(const v8::FunctionCallbackInfo<v8::Value>& args) {
   v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
   v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
-  PyObject *module = modules[moduleId->Value()];
+  PyObject *module = modules[(int)moduleId->Value()];
 
   v8::Local<v8::String> v8str = args[1]->ToString(context).ToLocalChecked();
   v8::String::Utf8Value utf8(v8str);
@@ -69,7 +69,7 @@ void Has(const v8::FunctionCallbackInfo<v8::Value>& args) {
   v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
   v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
-  PyObject *module = modules[moduleId->Value()];
+  PyObject *module = modules[(int)moduleId->Value()];
 
   v8::Local<v8::String> v8str = args[1]->ToString(context).ToLocalChecked();
   v8::String::Utf8Value utf8(v8str);
@@ -84,7 +84,7 @@ void Keys(const v8::FunctionCallbackInfo<v8::Value>& args) {
   v8::Isolate* isolate = args.GetIsolate();
 
   v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
-  PyObject *module = modules[moduleId->Value()];
+  PyObject *module = modules[(int)moduleId->Value()];
 
   PyObject *pDict = PyObject_GenericGetDict(module, NULL);
 
@@ -100,7 +100,7 @@ void Del(const v8::FunctionCallbackInfo<v8::Value>& args) {
   v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
   v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
-  PyObject *module = modules[moduleId->Value()];
+  PyObject *module = modules[(int)moduleId->Value()];
 
   v8::Local<v8::String> v8str = args[1]->ToString(context).ToLocalChecked();
   v8::String::Utf8Value utf8(v8str);
@@ -114,7 +114,7 @@ void Call(const v8::FunctionCallbackInfo<v8::Value>& args) {
   v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
   v8::Local<v8::Number> moduleId = v8::Local<v8::Number>::Cast(args[0]);
-  PyObject *module = modules[moduleId->Value()];
+  PyObject *module = modules[(int)moduleId->Value()];
 
   v8::Local<v8::String> v8str = args[1]->ToString(context).ToLocalChecked();
   v8::String::Utf8Value utf8(v8str);

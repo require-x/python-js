@@ -21,7 +21,7 @@ v8::Local<v8::Value> ResolveToV8(PyObject *pObj, v8::Isolate *isolate, v8::Local
   } else if (PyUnicode_Check(pObj)) {
     return v8::Local<v8::Value>::Cast(v8::String::NewFromUtf8(isolate, PyUnicode_AsUTF8(pObj)));
   } else if (PyList_Check(pObj)) {
-    v8::Local<v8::Array> arr = v8::Array::New(isolate, PyList_Size(pObj));
+    v8::Local<v8::Array> arr = v8::Array::New(isolate, (int)PyList_Size(pObj));
 
     for (int i = 0; i < PyList_Size(pObj); i++) {
       arr->Set(context, i, ResolveToV8(PyList_GetItem(pObj, i), isolate, tupleConstructor));
@@ -29,14 +29,14 @@ v8::Local<v8::Value> ResolveToV8(PyObject *pObj, v8::Isolate *isolate, v8::Local
 
     return v8::Local<v8::Value>::Cast(arr);
   } else if (PyTuple_Check(pObj)) {
-    v8::Local<v8::Value>* argv =  new v8::Local<v8::Value>[PyTuple_Size(pObj)];
+    v8::Local<v8::Value>* argv = new v8::Local<v8::Value>[PyTuple_Size(pObj)];
 
     for (int i = 0; i < PyTuple_Size(pObj); i++) {
       argv[i] = ResolveToV8(PyTuple_GetItem(pObj, i), isolate, tupleConstructor);
     }
 
     v8::Local<v8::Function> tuple = v8::Local<v8::Function>::Cast(tupleConstructor);
-    return tuple->NewInstance(context, PyTuple_Size(pObj), argv).ToLocalChecked();
+    return tuple->NewInstance(context, (int)PyTuple_Size(pObj), argv).ToLocalChecked();
   } else if (PyDict_Check(pObj)) {
     v8::Local<v8::Object> obj = v8::Object::New(isolate);
 

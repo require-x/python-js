@@ -5,7 +5,7 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "scripts": {
-    "test": "eslint index.js && jest test/",
+    "test": "eslint index.js && jest",
     "install": "node-gyp rebuild"
   },
   "keywords": [
