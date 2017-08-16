@@ -1,6 +1,8 @@
 #include <node.h>
 #include <Python.h>
 
+#include <string>
+
 v8::Local<v8::Value> ResolveToV8(PyObject *pObj, v8::Isolate *isolate, v8::Local<v8::Value> tupleConstructor) {
   v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
@@ -27,7 +29,7 @@ v8::Local<v8::Value> ResolveToV8(PyObject *pObj, v8::Isolate *isolate, v8::Local
 
     return v8::Local<v8::Value>::Cast(arr);
   } else if (PyTuple_Check(pObj)) {
-    v8::Local<v8::Value> argv[PyTuple_Size(pObj)];
+    v8::Local<v8::Value>* argv =  new v8::Local<v8::Value>[PyTuple_Size(pObj)];
 
     for (int i = 0; i < PyTuple_Size(pObj); i++) {
       argv[i] = ResolveToV8(PyTuple_GetItem(pObj, i), isolate, tupleConstructor);
