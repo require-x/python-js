@@ -121,14 +121,23 @@ void Call(const v8::FunctionCallbackInfo<v8::Value>& args) {
   PyObject *pObj = PyObject_GetAttrString(module, *utf8);
 
   if (pObj && PyCallable_Check(pObj)) {
-    PyObject *pArgs = PyTuple_New(args.Length() - 3);
-
-    for (int i = 0; i < args.Length() - 3; i++) {
-      PyTuple_SetItem(pArgs, i, ResolveToPy(args[i + 3]));
+    PyObject *pArgs;
+    v8::Local<v8::Value> kw;
+    if (args[args.Length() - 1]->IsObject() && std::string("Kwargs").compare(*v8::String::Utf8Value(v8::Local<v8::Object>::Cast(args[args.Length() - 1])->GetConstructorName())) == 0) {
+      pArgs = PyTuple_New(args.Length() - 4);
+      kw = args[args.Length() - 1];
+    } else {
+      pArgs = PyTuple_New(args.Length() - 3);
+      kw = v8::Local<v8::Value>::Cast(v8::Object::New(isolate));
     }
 
-    PyObject *pValue = PyObject_CallObject(pObj, pArgs);
+    for (int i = 0; i < args.Length() - 3; i++) {
+      if (!(i == args.Length() - 4 && args[i + 3]->IsObject() && std::string("Kwargs").compare(*v8::String::Utf8Value(v8::Local<v8::Object>::Cast(args[i + 3])->GetConstructorName())) == 0)) {
+        PyTuple_SetItem(pArgs, i, ResolveToPy(args[i + 3]));
+      }
+    }
 
+    PyObject *pValue = PyObject_Call(pObj, pArgs, ResolveToPy(kw));
     if (pValue == NULL) {
       PyErr_Print();
     }

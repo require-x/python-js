@@ -3,6 +3,12 @@ process.env.PYTHONPATH = process.env.PYTHONPATH || process.cwd();
 const { load, get, set, has, keys, del, call } = require('bindings')('python.node');
 
 class Tuple extends Array { }
+class Kwargs extends Object {
+  constructor(obj) {
+    super();
+    Object.assign(this, obj);
+  }
+}
 
 function objProxy(obj, id, name, parent) {
   return new Proxy(obj, {
@@ -29,6 +35,11 @@ function objProxy(obj, id, name, parent) {
 
 module.exports = {
   Tuple,
+  Kwargs,
+
+  kwargs(obj) {
+    return new Kwargs(obj);
+  },
 
   require(module) {
     const id = load(module);
