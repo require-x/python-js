@@ -12,7 +12,7 @@
           'libraries': ['<!(python pythonpath.py lib)']
         }, {
           'xcode_settings': {
-            'OTHER_CFLAGS': ['<!@(node python-config.js python<(python_version)-config --cflags)'],
+            'OTHER_CFLAGS': ['<!@(node python-config.js python<(python_version)-config --cflags)', '-std=c++11'],
           },
           'cflags': ['<!@(node python-config.js python<(python_version)-config --cflags)'],
           'libraries': ['<!@(node python-config.js python<(python_version)-config --ldflags)'],
