@@ -14,7 +14,7 @@
           'xcode_settings': {
             'OTHER_CFLAGS': ['<!@(node python-config.js python<(python_version)-config --cflags)', '-std=c++11'],
           },
-          'cflags': ['<!@(node python-config.js python<(python_version)-config --cflags)'],
+          'cflags': ['<!@(node python-config.js python<(python_version)-config --cflags)', '-std=c++11'],
           'libraries': ['<!@(node python-config.js python<(python_version)-config --ldflags)'],
         }]
       ]

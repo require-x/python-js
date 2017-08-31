@@ -12,11 +12,7 @@
 
 #include <iostream>
 
-#if PY_MAJOR_VERSION == 2
 #pragma message("Using Python " PY_VERSION)
-#else
-#pragma message("Using Python " PY_VERSION)
-#endif
 
 PyObject *pModules;
 
@@ -69,7 +65,16 @@ void Cleanup(const v8::FunctionCallbackInfo<v8::Value>& args) {
 }
 
 void Version(const v8::FunctionCallbackInfo<v8::Value>& args) {
-  args.GetReturnValue().Set(v8::Number::New(args.GetIsolate(), PY_MAJOR_VERSION));
+  v8::Isolate* isolate = args.GetIsolate();
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
+
+  v8::Local<v8::Array> arr = v8::Array::New(isolate, 3);
+
+  arr->Set(context, 0, v8::Number::New(isolate, PY_MAJOR_VERSION));
+  arr->Set(context, 1, v8::Number::New(isolate, PY_MINOR_VERSION));
+  arr->Set(context, 2, v8::Number::New(isolate, PY_MICRO_VERSION)); 
+
+  args.GetReturnValue().Set(arr);
 }
 
 void Load(const v8::FunctionCallbackInfo<v8::Value>& args) {

@@ -116,14 +116,7 @@ function objProxy(obj) {
     },
 
     getOwnPropertyDescriptor(target, key) {
-      if (target instanceof Array && key === 'length') {
-        return {
-          enumerable: false,
-          configurable: false,
-        };
-      }
-
-      if (key.startsWith('__')) {
+      if ((target instanceof Array && key === 'length') || key.startsWith('__')) {
         return {
           enumerable: false,
           configurable: false,
@@ -160,7 +153,6 @@ module.exports = {
         finalArgs.push(arg);
         n += 1;
       }
-
 
       final += `${str[i + 1]}`;
       i += 1;
@@ -201,7 +193,7 @@ module.exports = {
   },
 };
 
-if (version() === 3) {
+if (version()[0] === 3) {
   module.exports.builtins = module.exports.require('builtins');
 } else {
   module.exports.builtins = module.exports.require('__builtin__');
