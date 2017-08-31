@@ -199,9 +199,3 @@ matrix:
 os: linux
 install: npm i --python_version=$PYTHON_VERSION
 script: npm test
-addons:
-  apt:
-    sources:
-    - deadsnakes
-    packages:
-    - python$PYTHON_VERSION python$PYTHON_VERSION-dev
