@@ -63,6 +63,8 @@ matrix:
     install: npm i --python_version=3.6
     addons:
       apt:
+        sources:
+        - deadsnakes
         packages:
         - python3.6 python3.6-config
   - env: 
@@ -70,6 +72,8 @@ matrix:
     install: npm i --python_version=3.6
     addons:
       apt:
+        sources:
+        - deadsnakes
         packages:
         - python3.6 python3.6-config
   - env: 
@@ -77,6 +81,8 @@ matrix:
     install: npm i --python_version=3.6
     addons:
       apt:
+        sources:
+        - deadsnakes
         packages:
         - python3.6 python3.6-config
 
@@ -128,7 +134,3 @@ os: linux
 before_install: nvm i $NODE_VERSION
 install: npm i
 script: npm test
-addons:
-  apt:
-    sources:
-    - deadsnakes
