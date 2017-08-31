@@ -12,10 +12,10 @@
           'libraries': ['<!(python pythonpath.py lib)']
         }, {
           'xcode_settings': {
-            'OTHER_CFLAGS': ['<!@(./python-config.sh python<(python_version)-config --cflags)'],
+            'OTHER_CFLAGS': ['<!@(node python-config.js python<(python_version)-config --cflags)'],
           },
-          'cflags': ['<!@(./python-config.sh python<(python_version)-config --cflags)'],
-          'libraries': ['<!@(./python-config.sh python<(python_version)-config --ldflags)'],
+          'cflags': ['<!@(node python-config.js python<(python_version)-config --cflags)'],
+          'libraries': ['<!@(node python-config.js python<(python_version)-config --ldflags)'],
         }]
       ]
     }
