@@ -61,6 +61,7 @@ matrix:
   - env: 
     - NODE_VERSION=6
     install: npm i --python_version=3.6
+    language: node_js
     addons:
       apt:
         sources:
@@ -70,6 +71,7 @@ matrix:
   - env: 
     - NODE_VERSION=7
     install: npm i --python_version=3.6
+    language: node_js
     addons:
       apt:
         sources:
@@ -79,6 +81,7 @@ matrix:
   - env: 
     - NODE_VERSION=8
     install: npm i --python_version=3.6
+    language: node_js
     addons:
       apt:
         sources:
