@@ -62,19 +62,19 @@ matrix:
     env: 
     - NODE_VERSION=6
     - LD_LIBRARY_PATH=/opt/python/3.6.2/lib
-    before_install: node python-config.js python3.6-config --ldflags
+    before_install: node python-config.js python3.6-config --cflags
     install: npm i --python_version=3.6
   - python: "3.6.2"
     env: 
     - NODE_VERSION=7
     - LD_LIBRARY_PATH=/opt/python/3.6.2/lib
-    before_install: node python-config.js python3.6-config --ldflags
+    before_install: node python-config.js python3.6-config --cflags
     install: npm i --python_version=3.6
   - python: "3.6.2"
     env: 
     - NODE_VERSION=8
     - LD_LIBRARY_PATH=/opt/python/3.6.2/lib
-    before_install: node python-config.js python3.6-config --ldflags
+    before_install: node python-config.js python3.6-config --cflags
     install: npm i --python_version=3.6
 
   - env:
