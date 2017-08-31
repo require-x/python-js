@@ -79,16 +79,19 @@ matrix:
     - PYTHON_VERSION=2
     os: osx
     install: npm i --python_version=2
+    language: node_js
   - env:
     - NODE_VERSION=7
     - PYTHON_VERSION=2
     os: osx
     install: npm i --python_version=2
+    language: node_js
   - env:
     - NODE_VERSION=8
     - PYTHON_VERSION=2
     os: osx
     install: npm i --python_version=2
+    language: node_js
 
   - env:
     - NODE_VERSION=6
@@ -97,6 +100,7 @@ matrix:
     install: 
     - brew install python3
     - npm i --python_version=3
+    language: node_js
   - env:
     - NODE_VERSION=7
     - PYTHON_VERSION=3
@@ -104,6 +108,7 @@ matrix:
     install: 
     - brew install python3
     - npm i --python_version=3
+    language: node_js
   - env:
     - NODE_VERSION=8
     - PYTHON_VERSION=3
@@ -111,6 +116,7 @@ matrix:
     install: 
     - brew install python3
     - npm i --python_version=3
+    language: node_js
 
 os: linux
 before_install: nvm i $NODE_VERSION
