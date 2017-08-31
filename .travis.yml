@@ -42,69 +42,69 @@ matrix:
     env: NODE_VERSION=8
     install: npm i --python_version=3.4
 
-  - python: "3.5"
+  - python: "3.5.3"
     env: 
     - NODE_VERSION=6
     - LD_RUN_PATH=/opt/python/3.5.3/lib
     install: npm i --python_version=3.5
-  - python: "3.5"
+  - python: "3.5.3"
     env: 
     - NODE_VERSION=7
     - LD_RUN_PATH=/opt/python/3.5.3/lib
     install: npm i --python_version=3.5
-  - python: "3.5"
+  - python: "3.5.3"
     env: 
     - NODE_VERSION=8
     - LD_RUN_PATH=/opt/python/3.5.3/lib
     install: npm i --python_version=3.5
 
-  - python: "3.6"
-    env: NODE_VERSION=6
+  - python: "3.6.2"
+    env: 
+    - NODE_VERSION=6
+    - LD_LIBRARY_PATH=/opt/python/3.6.2/lib
     install: npm i --python_version=3.6
-  - python: "3.6"
-    env: NODE_VERSION=7
+  - python: "3.6.2"
+    env: 
+    - NODE_VERSION=7
+    - LD_LIBRARY_PATH=/opt/python/3.6.2/lib
     install: npm i --python_version=3.6
-  - python: "3.6"
-    env: NODE_VERSION=8
+  - python: "3.6.2"
+    env: 
+    - NODE_VERSION=8
+    - LD_LIBRARY_PATH=/opt/python/3.6.2/lib
     install: npm i --python_version=3.6
 
-  - python: "2.7"
-    env:
+  - env:
     - NODE_VERSION=6
     - PYTHON_VERSION=2
     os: osx
     install: npm i --python_version=2
-  - python: "2.7"
-    env:
+  - env:
     - NODE_VERSION=7
     - PYTHON_VERSION=2
     os: osx
     install: npm i --python_version=2
-  - python: "2.7"
-    env:
+  - env:
     - NODE_VERSION=8
     - PYTHON_VERSION=2
     os: osx
     install: npm i --python_version=2
 
-  - python: "3.6"
-    env:
+  - env:
     - NODE_VERSION=6
     - PYTHON_VERSION=3
     os: osx
     install: 
     - brew install python3
     - npm i --python_version=3
-  - python: "3.6"
-    env:
+  - env:
     - NODE_VERSION=7
     - PYTHON_VERSION=3
     os: osx
     install: 
     - brew install python3
     - npm i --python_version=3
-  - python: "3.6"
-    env:
+  - env:
     - NODE_VERSION=8
     - PYTHON_VERSION=3
     os: osx
