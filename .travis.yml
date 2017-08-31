@@ -1,13 +1,108 @@
-language: node_js
-node_js: 
-  - "8"
-  - "7"
-  - "6"
-os:
-  - linux
-  - osx
-env:
-  - LD_RUN_PATH=/opt/python/3.5.3/lib
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3; fi
+language: python
+
+matrix:
+  include:
+  - python: "2.6"
+    before_install: nvm i 6
+  - python: "2.6"
+    before_install: nvm i 7
+  - python: "2.6"
+    before_install: nvm i 8
+
+  - python: "2.7"
+    before_install: nvm i 6
+  - python: "2.7"
+    before_install: nvm i 7
+  - python: "2.7"
+    before_install: nvm i 8
+
+  - python: "3.3"
+    before_install: nvm i 6
+  - python: "3.3"
+    before_install: nvm i 7
+  - python: "3.3"
+    before_install: nvm i 8
+
+  - python: "3.4"
+    before_install: nvm i 6
+  - python: "3.4"
+    before_install: nvm i 7
+  - python: "3.4"
+    before_install: nvm i 8
+
+  - python: "3.5"
+    before_install: nvm i 6
+  - python: "3.5"
+    before_install: nvm i 7
+  - python: "3.5"
+    before_install: nvm i 8
+
+  - python: "3.6"
+    before_install: nvm i 6
+  - python: "3.6"
+    before_install: nvm i 7
+  - python: "3.6"
+    before_install: nvm i 8
+
+  - python: "2.6"
+    before_install: nvm i 6
+    os: osx
+  - python: "2.6"
+    before_install: nvm i 7
+    os: osx
+  - python: "2.6"
+    before_install: nvm i 8
+    os: osx
+
+  - python: "2.7"
+    before_install: nvm i 6
+    os: osx
+  - python: "2.7"
+    before_install: nvm i 7
+    os: osx
+  - python: "2.7"
+    before_install: nvm i 8
+    os: osx
+
+  - python: "3.3"
+    before_install: nvm i 6
+    os: osx
+  - python: "3.3"
+    before_install: nvm i 7
+    os: osx
+  - python: "3.3"
+    before_install: nvm i 8
+    os: osx
+
+  - python: "3.4"
+    before_install: nvm i 6
+    os: osx
+  - python: "3.4"
+    before_install: nvm i 7
+    os: osx
+  - python: "3.4"
+    before_install: nvm i 8
+    os: osx
+
+  - python: "3.5"
+    before_install: nvm i 6
+    os: osx
+  - python: "3.5"
+    before_install: nvm i 7
+    os: osx
+  - python: "3.5"
+    before_install: nvm i 8
+    os: osx
+
+  - python: "3.6"
+    before_install: nvm i 6
+    os: osx
+  - python: "3.6"
+    before_install: nvm i 7
+    os: osx
+  - python: "3.6"
+    before_install: nvm i 8
+    os: osx
+
+os: linux
+install: npm i
