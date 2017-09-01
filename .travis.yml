@@ -155,34 +155,25 @@ matrix:
   - node_js: '6'
     env: PYTHON_VERSION=2
     os: osx
-    install: npm i --python_version=2
   - node_js: '7'
     env: PYTHON_VERSION=2
     os: osx
-    install: npm i --python_version=2
   - node_js: '8'
     env: PYTHON_VERSION=2
     os: osx
-    install: npm i --python_version=2
 
   - node_js: '6'
     env: PYTHON_VERSION=3
     os: osx
-    install: 
-    - brew install python3
-    - npm i --python_version=3
+    before_install: brew install python3
   - node_js: '7'
     env: PYTHON_VERSION=3
     os: osx
-    install: 
-    - brew install python3
-    - npm i --python_version=3
+    before_install: brew install python3
   - node_js: '8'
     env: PYTHON_VERSION=3
     os: osx
-    install: 
-    - brew install python3
-    - npm i --python_version=3
+    before_install: brew install python3
 
 os: linux
 install: npm i --python_version=$PYTHON_VERSION
