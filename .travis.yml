@@ -152,49 +152,37 @@ matrix:
         packages:
         - python3.6 python3.6-dev
 
-  - env:
-    - NODE_VERSION=6
-    - PYTHON_VERSION=2
+  - node_js: '6'
+    env: PYTHON_VERSION=2
     os: osx
     install: npm i --python_version=2
-    language: node_js
-  - env:
-    - NODE_VERSION=7
-    - PYTHON_VERSION=2
+  - node_js: '7'
+    env: PYTHON_VERSION=2
     os: osx
     install: npm i --python_version=2
-    language: node_js
-  - env:
-    - NODE_VERSION=8
-    - PYTHON_VERSION=2
+  - node_js: '8'
+    env: PYTHON_VERSION=2
     os: osx
     install: npm i --python_version=2
-    language: node_js
 
-  - env:
-    - NODE_VERSION=6
-    - PYTHON_VERSION=3
+  - node_js: '6'
+    env: PYTHON_VERSION=3
     os: osx
     install: 
     - brew install python3
     - npm i --python_version=3
-    language: node_js
-  - env:
-    - NODE_VERSION=7
-    - PYTHON_VERSION=3
+  - node_js: '7'
+    env: PYTHON_VERSION=3
     os: osx
     install: 
     - brew install python3
     - npm i --python_version=3
-    language: node_js
-  - env:
-    - NODE_VERSION=8
-    - PYTHON_VERSION=3
+  - node_js: '8'
+    env: PYTHON_VERSION=3
     os: osx
     install: 
     - brew install python3
     - npm i --python_version=3
-    language: node_js
 
 os: linux
 install: npm i --python_version=$PYTHON_VERSION
